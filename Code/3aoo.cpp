@@ -1,4 +1,10 @@
-#use
+#define _USE_MATH_DEFINES
+#include <math.h>
+#include <iostream>
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
+
 //Just for the sun earth system
 
 class solver

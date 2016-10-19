@@ -4,7 +4,7 @@
 #include <vector>
 #include <fstream>
 
-#using std::vector
+using std::vector;
 
 class solver
 {

@@ -21,8 +21,11 @@ public:
 
 	//functions;
 	void Gravitiationalconstant();
+	void add(planet newPlanet);
+	void addM(planet newPlanet);
     void Eulerf(int dim, int N, double final_time);
     void VelocityVerlet(int dim, int N, double final_time);
+    double setup_matrix(int height, int width)
 };
 
 #endif //SOLVER_H

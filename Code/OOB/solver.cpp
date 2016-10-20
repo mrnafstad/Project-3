@@ -48,9 +48,23 @@ void Eulerf( int dim, int N, double final_time, planet )
 	}
 }
 
-void velVerlet( int dim, int N, double final_time, )
+void velVerlet( int dim, int N, double final_time )
 {
-	
+	//Will only work for binary system atm
+	double h = final_time/(double)N;
+	double time = 0.0;
+	while ( time < final_time) {
+		for (int nr1 = 0; nr1 < total_planets; nr1++) {
+			planet &current = all_planets[nr1];
+			Fx = Fy = Fz = Fxnew = Fynew = Fznew = 0.0;
+			for ( int nr2 = nr1 + 1; nr2 < total_planets; nr2++) {
+				planet &other = all_planets[nr2];
+				GravitationalForce(other, current, Fx, Fy, Fz);
+			}
+			//next define acceleration, then the real algo
+
+		}
+	}	
 }
 
 double ** solver::setup_matrix(int height,int width)
@@ -71,4 +85,20 @@ double ** solver::setup_matrix(int height,int width)
         }
     }
     return matrix;
+}
+
+void solver::GravitationalForce(planet &current,planet &other,double &Fx,double &Fy,double &Fz)
+{   // Function that calculates the gravitational force between two objects, component by component.
+
+    // Calculate relative distance between current planet and all other planets
+    double relative_distance[3];
+
+    for(int j = 0; j < 3; j++) relative_distance[j] = current.position[j]-other.position[j];
+    double r = current.distance(other);
+    //double smoothing = epsilon*epsilon*epsilon;
+
+    // Calculate the forces in each direction
+    Fx -= this->G*current.mass*other.mass*relative_distance[0]/((r*r*r))// + smoothing);
+    Fy -= this->G*current.mass*other.mass*relative_distance[1]/((r*r*r))// + smoothing);
+    Fz -= this->G*current.mass*other.mass*relative_distance[2]/((r*r*r))// + smoothing);
 }

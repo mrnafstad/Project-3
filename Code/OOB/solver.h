@@ -25,6 +25,7 @@ public:
 	void addM(planet newPlanet);
     void Eulerf(int dim, int N, double final_time);
     void VelocityVerlet(int dim, int N, double final_time);
+    void GravitationalForce(planet current, planet other, double Fx, double Fy, double Fz);
     double setup_matrix(int height, int width)
 };
 

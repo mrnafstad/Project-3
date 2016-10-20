@@ -3,6 +3,11 @@
 #include <cmath>
 #include <cstring>
 #include <fstream>
+<<<<<<< HEAD
+=======
+//#include <random>
+//#include <chrono>
+>>>>>>> 8afdf6e2aae10b69a37b2f295ec0136c35bd8bbe
 #include <time.h>
 #include "planet.h"
 #include "solver.h"

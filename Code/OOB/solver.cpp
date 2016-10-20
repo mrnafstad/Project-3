@@ -34,17 +34,6 @@ void solver::addM(planet newplanet)
     all_planets.push_back(newplanet);
 }
 
-<<<<<<< HEAD
-=======
-void Eulerf( int dim, int N, double final_time, planet )
-{
-	time = 0.0
-	double h = final_time/N;
-	for (int i = 0; i < N; i++) {
-		
-	}
-}
-
 void velVerlet( int dim, int N, double final_time )
 {
 	//Will only work for binary system atm
@@ -64,7 +53,6 @@ void velVerlet( int dim, int N, double final_time )
 	}	
 }
 
->>>>>>> a8671c564768fee1bd2132e05f2b7a33a225918f
 double ** solver::setup_matrix(int height,int width)
 {   // Function to set up a 2D array
 
@@ -85,7 +73,6 @@ double ** solver::setup_matrix(int height,int width)
     return matrix;
 }
 
-<<<<<<< HEAD
 void solver::delete_matrix(double **matrix)
 {   // Function to deallocate memory of a 2D array
 
@@ -114,12 +101,11 @@ void solver::ForwardEuler( int dim, int N, double final_time )
 			Vel[i+1][j] = Vel[i][j] + h*Acc[i][j];
 			Pos[i+1][j] = Pos[i][j] + h*Vel[i][j];
 		}
-		
-		
 	}
-=======
-void solver::GravitationalForce(planet &current,planet &other,double &Fx,double &Fy,double &Fz)
-{   // Function that calculates the gravitational force between two objects, component by component.
+		
+}
+
+void solver::GravitationalForce(planet &current,planet &other,double &Fx,double &Fy,double &Fz){   // Function that calculates the gravitational force between two objects, component by component.
 
     // Calculate relative distance between current planet and all other planets
     double relative_distance[3];
@@ -132,5 +118,4 @@ void solver::GravitationalForce(planet &current,planet &other,double &Fx,double 
     Fx -= this->G*current.mass*other.mass*relative_distance[0]/((r*r*r))// + smoothing);
     Fy -= this->G*current.mass*other.mass*relative_distance[1]/((r*r*r))// + smoothing);
     Fz -= this->G*current.mass*other.mass*relative_distance[2]/((r*r*r))// + smoothing);
->>>>>>> a8671c564768fee1bd2132e05f2b7a33a225918f
 }

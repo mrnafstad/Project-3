@@ -31,7 +31,7 @@ int main(){
 	earthsun_Euler.add(Sun);
 	*/
 
-	solver earthsun_VV();
+	solver earthsun_VV;
 	earthsun_VV.add(Earth);
 	earthsun_VV.add(Sun);
 

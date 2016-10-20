@@ -31,7 +31,7 @@ public:
     void velVerlet(int dim, int N, double final_time, int print_number);
     double **setup_matrix(int height, int width);
     void delete_matrix(double **matrix);
-    void GravitationalForce(planet current, planet other, double Fx, double Fy, double Fz);
+    void GravitationalForce(planet &current, planet &other, double &Fx, double &Fy, double &Fz);
 };
 
 #endif //SOLVER_H

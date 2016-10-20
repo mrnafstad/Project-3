@@ -26,12 +26,49 @@ void solver::Gravitationalconstant()
 	G = 4*M_PI*M_PI/32 * radius * radius * radius / mass;
 }
 
-void Eulerf( int dim, int N, double final_time )
+void solver::add(planet newplanet)
+{
+    total_planets += 1;
+    total_mass += newplanet.mass;
+    all_planets.push_back(newplanet);
+}
+
+void solver::addM(planet newplanet)
+{
+    total_planets +=1;
+    all_planets.push_back(newplanet);
+}
+
+void Eulerf( int dim, int N, double final_time, planet )
 {
 	time = 0.0
 	double h = final_time/N;
-	while ( time < final_time) {
-		
+	for (int i = 0; i < N; i++) {
 		
 	}
+}
+
+void velVerlet( int dim, int N, double final_time, )
+{
+	
+}
+
+double ** solver::setup_matrix(int height,int width)
+{   // Function to set up a 2D array
+
+    // Set up matrix
+    double **matrix;
+    matrix = new double*[height];
+
+    // Allocate memory
+    for(int i=0;i<height;i++)
+        matrix[i] = new double[width];
+
+    // Set values to zero
+    for(int i = 0; i < height; i++){
+        for(int j = 0; j < width; j++){
+            matrix[i][j] = 0.0;
+        }
+    }
+    return matrix;
 }

@@ -3,8 +3,8 @@
 #include <cmath>
 #include <cstring>
 #include <fstream>
-#include <random>
-#include <chrono>
+//#include <random>
+//#include <chrono>
 #include <time.h>
 #include "planet.h"
 #include "solver.h"

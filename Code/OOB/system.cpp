@@ -3,8 +3,6 @@
 #include <cmath>
 #include <cstring>
 #include <fstream>
-#include <random>
-#include <chrono>
 #include <time.h>
 #include "planet.h"
 #include "solver.h"
@@ -18,7 +16,7 @@ int main(){
 	double Pos_init[3], Vel_init[3];
 
 	planet Earth(0.000003, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-	planet Sun(1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+	planet Sun(1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);	
 
 	/*for(int i = 0; i < dim; i++){
 		Pos_init[0, i] = Earth.position[i];

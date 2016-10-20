@@ -41,7 +41,7 @@ void solver::print_position(std::ofstream &output, int dimension, double time,in
     else{
         for(int i=0;i<number;i++){
             planet &current = all_planets[i];
-            output << time << "\t" << i+1 << "\t" << current.mass;
+            output << time;
             for(int j=0;j<dimension;j++) output << "\t" << current.position[j];
             //for(int j=0;j<dimension;j++) output << "\t" << current.velocity[j];
             output << std::endl;

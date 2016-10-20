@@ -17,7 +17,7 @@ int main(){
 
 	double Pos_init[3], Vel_init[3];
 
-	planet Earth(0.000003, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	planet Earth(0.000003, 1.0, 0.0, 0.0, 0.0, 2*M_PI, 0.0);
 	planet Sun(1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
 	/*for(int i = 0; i < dim; i++){

@@ -21,11 +21,6 @@ solver::solver( double radi )
 	Potential = 0.0;
 }
 
-void solver::Gravitationalconstant()
-{
-	G = 4*M_PI*M_PI/32 * radius * radius * radius / mass;
-}
-
 void solver::add(planet newplanet)
 {
     total_planets += 1;
@@ -37,20 +32,6 @@ void solver::addM(planet newplanet)
 {
     total_planets +=1;
     all_planets.push_back(newplanet);
-}
-
-void Eulerf( int dim, int N, double final_time, planet )
-{
-	time = 0.0
-	double h = final_time/N;
-	for (int i = 0; i < N; i++) {
-		
-	}
-}
-
-void velVerlet( int dim, int N, double final_time, )
-{
-	
 }
 
 double ** solver::setup_matrix(int height,int width)
@@ -71,4 +52,37 @@ double ** solver::setup_matrix(int height,int width)
         }
     }
     return matrix;
+}
+
+void solver::delete_matrix(double **matrix)
+{   // Function to deallocate memory of a 2D array
+
+    for (int i=0; i<total_planets; i++)
+        delete [] matrix[i];
+    delete [] matrix;
+}
+
+void solver::Gravitationalconstant()
+{
+	G = 4*M_PI*M_PI/32 * radius * radius * radius / mass;
+}
+
+void solver::ForwardEuler( int dim, int N, double final_time )
+{
+	double **Acc = setup_matrix(N, dim);
+	double **Vel = setup_matrix(N, dim);
+	double **Pos = setup_matrix(N, dim);
+
+	double h = final_time/(N -1);
+
+	//MÅ FÅ INN INITIALVERDIEN PÅ EN ELLER ANNEN MÅTE
+
+	for(int i = 0; i < N; i = i + h){
+		for(int j = 0; i < dim, j++){
+			Vel[i+1][j] = Vel[i][j] + h*Acc[i][j];
+			Pos[i+1][j] = Pos[i][j] + h*Vel[i][j];
+		}
+		
+		
+	}
 }

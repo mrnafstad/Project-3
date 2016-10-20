@@ -23,9 +23,10 @@ public:
 	void Gravitiationalconstant();
 	void add(planet newPlanet);
 	void addM(planet newPlanet);
-    void Eulerf(int dim, int N, double final_time);
+    void ForwardEuler(int dim, int N, double final_time);
     void VelocityVerlet(int dim, int N, double final_time);
-    double setup_matrix(int height, int width)
+    double setup_matrix(int height, int width);
+    void delete_matrix(double **matrix);
 };
 
 #endif //SOLVER_H

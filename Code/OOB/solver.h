@@ -13,6 +13,9 @@ public:
 
 	//properties
 	double radius, G;
+	vector<planet> all_planets;
+	int total_planets;
+	double total_mass;
 
 
 	//initializer
@@ -23,9 +26,10 @@ public:
 	void Gravitiationalconstant();
 	void add(planet newPlanet);
 	void addM(planet newPlanet);
+	void print_position(std::ofstream &output, int dim, double time, int number);
     void ForwardEuler(int dim, int N, double final_time);
-    void VelocityVerlet(int dim, int N, double final_time);
-    double setup_matrix(int height, int width);
+    void velVerlet(int dim, int N, double final_time, int print_number);
+    double **setup_matrix(int height, int width);
     void delete_matrix(double **matrix);
     void GravitationalForce(planet current, planet other, double Fx, double Fy, double Fz);
 };

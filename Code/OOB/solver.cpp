@@ -7,18 +7,19 @@
 
 solver::solver()
 {
-	radius = 1.0;
-	G = 4*M_PI*M_PI;
-	Kinetic = 0.0;
-	Potential = 0.0;
+    total_planets = 0;
+    radius = 1.0;
+    total_mass = 0;
+    G = 4*M_PI*M_PI;
+
 }
 
 solver::solver( double radi )
 {
-	radius = radi;
-	G = 4*M_PI*M_PI;
-	Kinetic = 0.0;
-	Potential = 0.0;
+    total_planets = 0;
+    radius = radi;
+    total_mass = 0;
+    G = 4*M_PI*M_PI;
 }
 
 void solver::add(planet newplanet)
@@ -53,8 +54,8 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number )
 	//Will only work for binary system atm
 	double h = final_time/(double)N;
 	double time = 0.0;
-	double ** acceleration = setup_matrix(total_planets, 3);
-	double ** acceleration_new = setup_matrix(total_planets, 3);
+	double** acceleration = setup_matrix(total_planets, 3);
+	double** acceleration_new = setup_matrix(total_planets, 3);
 
 	double Fx, Fy, Fz, Fxnew, Fynew, Fznew;
 
@@ -64,11 +65,11 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number )
     sprintf( filename, "clusterVV_%d_%.3f.txt", total_planets, h );
     std::ofstream output_file(filename);
 
-	print_position( output_file, time, print_number )
+	print_position( output_file, dim, time, print_number );
 
 	while ( time < final_time) {
 		for (int nr1 = 0; nr1 < total_planets; nr1++) {
-			planet &current = all_planets[nr2];
+			planet &current = all_planets[nr1];
 			Fx = Fy = Fz = Fxnew = Fynew = Fznew = 0.0;
 			for ( int nr2 = nr1 + 1; nr2 < total_planets; nr2++) {
 				planet &other = all_planets[nr2];
@@ -99,7 +100,9 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number )
 		
 
 	}
-	output_file.close();	
+	output_file.close();
+	delete_matrix(acceleration);
+	delete_matrix(acceleration_new);	
 }
 
 double ** solver::setup_matrix(int height,int width)
@@ -130,10 +133,12 @@ void solver::delete_matrix(double **matrix)
     delete [] matrix;
 }
 
+/*
 void solver::Gravitationalconstant()
 {
 	G = 4*M_PI*M_PI/32 * radius * radius * radius / mass;
 }
+*/
 
 void solver::ForwardEuler( int dim, int N, double final_time )
 {
@@ -146,7 +151,7 @@ void solver::ForwardEuler( int dim, int N, double final_time )
 	//MÅ FÅ INN INITIALVERDIEN PÅ EN ELLER ANNEN MÅTE
 
 	for(int i = 0; i < N; i = i + h){
-		for(int j = 0; i < dim, j++){
+		for(int j = 0; i < dim; j++){
 			Vel[i+1][j] = Vel[i][j] + h*Acc[i][j];
 			Pos[i+1][j] = Pos[i][j] + h*Vel[i][j];
 		}
@@ -154,7 +159,7 @@ void solver::ForwardEuler( int dim, int N, double final_time )
 		
 }
 
-void solver::GravitationalForce(planet &current,planet &other,double &Fx,double &Fy,double &Fz){   // Function that calculates the gravitational force between two objects, component by component.
+void solver::GravitationalForce(planet &current, planet &other, double &Fx, double &Fy, double &Fz){   // Function that calculates the gravitational force between two objects, component by component.
 
     // Calculate relative distance between current planet and all other planets
     double relative_distance[3];
@@ -164,7 +169,7 @@ void solver::GravitationalForce(planet &current,planet &other,double &Fx,double 
     //double smoothing = epsilon*epsilon*epsilon;
 
     // Calculate the forces in each direction
-    Fx -= this->G*current.mass*other.mass*relative_distance[0]/((r*r*r))// + smoothing);
-    Fy -= this->G*current.mass*other.mass*relative_distance[1]/((r*r*r))// + smoothing);
-    Fz -= this->G*current.mass*other.mass*relative_distance[2]/((r*r*r))// + smoothing);
+    Fx -= this->G*current.mass*other.mass*relative_distance[0]/((r*r*r));// + smoothing);
+    Fy -= this->G*current.mass*other.mass*relative_distance[1]/((r*r*r));// + smoothing);
+    Fz -= this->G*current.mass*other.mass*relative_distance[2]/((r*r*r));// + smoothing);
 }

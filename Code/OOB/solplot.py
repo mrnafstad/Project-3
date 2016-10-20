@@ -1,15 +1,15 @@
 from matplotlib.pylab import *
 from numpy import *
 
-f = open("clusterVV_2_0.000.txt")
+f = open("clusterVV_2_0.004.txt")
 
 posx = []
 posy = []
 
 for line in f:
 	pos = line.split()
-	x = pos[0]
-	y = pos[1]
+	x = pos[1]
+	y = pos[2]
 	posx.append(float(x))
 	posy.append(float(y))
 

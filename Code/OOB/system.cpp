@@ -12,23 +12,12 @@ using namespace std;
 
 int main(){
 
-	int dim = 2, N = 10000;
-	double final_time = 1.0;
-
-	double Pos_init[3], Vel_init[3];
-
+	int dim = 3, N = 1000;
+	double final_time = 4.0;
 
 	planet Earth(0.000003, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 	planet Sun(1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);	
-
-	planet Earth(0.000003, 1.0, 0.0, 0.0, 0.0, 2*M_PI, 0.0);
-	planet Sun(1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
  	
-
-	/*for(int i = 0; i < dim; i++){
-		Pos_init[0, i] = Earth.position[i];
-		Vel_init[0, i] = Earth.velocity[i];
-	}*/
 
 	/*
 	solver earthsun_Euler;
@@ -36,11 +25,11 @@ int main(){
 	earthsun_Euler.add(Sun);
 	*/
 
-	solver earthsun_VV;
+	solver earthsun_VV(1.0);
 	earthsun_VV.add(Earth);
 	earthsun_VV.add(Sun);
 
-	earthsun_VV.velVerlet( 3, 100000, 5.0, 1);
+	earthsun_VV.velVerlet( dim, N, final_time, 1);
 
 	return 0;
 }

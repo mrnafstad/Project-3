@@ -8,7 +8,7 @@
 solver::solver()
 {
     total_planets = 0;
-    radius = 1.0;
+    radius = 100.0;
     total_mass = 0;
     G = 4*M_PI*M_PI;
 
@@ -76,9 +76,9 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number )
 				GravitationalForce(other, current, Fx, Fy, Fz);
 			}
 			//next define acceleration, then the real algo
-			acceleration[nr1][0] = Fx/current.mass;
-			acceleration[nr1][1] = Fy/current.mass;
-			acceleration[nr1][2] = Fz/current.mass;
+			acceleration[nr1][0] = -Fx/current.mass;
+			acceleration[nr1][1] = -Fy/current.mass;
+			acceleration[nr1][2] = -Fz/current.mass;
 			for ( int j = 0; j < dim; j++ ) {
 				current.position[j] += h*current.velocity[j] + 0.5*h*h*acceleration[nr1][j];
 			}
@@ -88,9 +88,9 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number )
 				GravitationalForce(other, current, Fxnew, Fynew, Fznew);
 			}
 			//next define acceleration, then the real algo
-			acceleration_new[nr1][0] = Fx/current.mass;
-			acceleration_new[nr1][1] = Fy/current.mass;
-			acceleration_new[nr1][2] = Fz/current.mass;
+			acceleration_new[nr1][0] = -Fxnew/current.mass;
+			acceleration_new[nr1][1] = -Fynew/current.mass;
+			acceleration_new[nr1][2] = -Fznew/current.mass;
 			for ( int j = 0; j < dim; j++ ) {
 				current.velocity[j] += 0.5*h*h*( acceleration[nr1][j] + acceleration_new[nr1][j]);
 			}
@@ -137,8 +137,8 @@ void solver::delete_matrix(double **matrix)
 void solver::Gravitationalconstant()
 {
 	G = 4*M_PI*M_PI/32 * radius * radius * radius / mass;
-}
-*/
+}*/
+
 
 void solver::ForwardEuler( int dim, int N, double final_time )
 {

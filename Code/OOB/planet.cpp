@@ -4,7 +4,7 @@
 planet::planet()
 {
     mass = 1.;
-    position[0] = 1.;
+    position[0] = 0.;
     position[1] = 0.;
     position[2] = 0.;
     velocity[0] = 0.;
@@ -28,7 +28,7 @@ planet::planet(double M, double x, double y, double z, double vx, double vy, dou
 }
 
 
-double planet::distance(planet Sun)
+double planet::distance(planet otherPlanet)
 {
     double x1,y1,z1,x2,y2,z2,xx,yy,zz;
 
@@ -36,9 +36,9 @@ double planet::distance(planet Sun)
     y1 = this->position[1];
     z1 = this->position[2];
 
-    x2 = Sun.position[0];
-    y2 = Sun.position[1];
-    z2 = Sun.position[2];
+    x2 = otherPlanet.position[0];
+    y2 = otherPlanet.position[1];
+    z2 = otherPlanet.position[2];
 
     xx = x1-x2;
     yy = y1-y2;
@@ -46,3 +46,10 @@ double planet::distance(planet Sun)
 
     return sqrt(xx*xx + yy*yy + zz*zz);
  }
+
+double planet::GravitationalForce(planet otherPlanet,double Gconst)
+{
+    double r = this->distance(otherPlanet);
+    if(r!=0) return Gconst*this->mass*otherPlanet.mass/(r*r);
+    else return 0;
+}

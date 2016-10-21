@@ -19,20 +19,20 @@ int main(){
 	planet Sun(1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);	
  	
 
-	
+	/*
 	solver earthsun_Euler;
 	earthsun_Euler.add(Earth);
 	earthsun_Euler.add(Sun);
 
 	earthsun_Euler.ForwardEuler(dim, N, final_time);
+	*/
 	
-	/*
 	solver earthsun_VV;
 	earthsun_VV.add(Earth);
 	earthsun_VV.add(Sun);
 
 	earthsun_VV.velVerlet( dim, N, final_time, 1);
-	*/
+	
 
 	return 0;
 }

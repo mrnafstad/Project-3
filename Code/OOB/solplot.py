@@ -20,7 +20,7 @@ plot(posx, posy)
 show()
 '''
 
-f = open("EulerTest.txt")
+f = open("VerletTest.txt")
 
 posx = []
 posy = []

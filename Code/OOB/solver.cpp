@@ -50,7 +50,7 @@ void solver::print_position(std::ofstream &output, int dimension, double time,in
 }
 
 void solver::velVerlet( int dim, int N, double final_time, int print_number )
-{
+{/*
 	//Will only work for binary system atm
 	double h = final_time/(double)N;
 	double time = 0.0;
@@ -102,7 +102,48 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number )
 	}
 	output_file.close();
 	delete_matrix(acceleration);
-	delete_matrix(acceleration_new);	
+	delete_matrix(acceleration_new);*/
+
+	double time = 0.0;
+	double h = final_time/(double)N;
+
+	planet &earth = all_planets[0];
+	planet &sun = all_planets[1];
+
+	double Fx, Fy, Fz, Fx_new, Fy_new, Fz_new;
+	double acc[3];
+	double acc_new[3];
+
+	FILE *fp;
+	fp = fopen("VerletTest.txt", "w+");
+	fprintf(fp, "%f %f %f %f\n", time, earth.position[0], earth.position[1], earth.position[2]);
+
+	while(time < final_time){
+
+		Fx = 0; Fy = 0; Fz = 0;
+		GravitationalForce(earth, sun, Fx, Fy, Fz);
+
+		acc[0] = Fx/earth.mass; acc[1] = Fy/earth.mass; acc[2] = Fz/earth.mass;
+
+		for(int i = 0; i < dim; i++){
+			earth.position[i] += h*earth.velocity[i] + 0.5*acc[i]*h*h;
+		}
+
+		Fx_new = 0; Fy_new = 0; Fz_new = 0;
+		GravitationalForce(earth, sun, Fx_new, Fy_new, Fz_new);
+
+		acc_new[0] = Fx_new/earth.mass; acc_new[1] = Fy_new/earth.mass; acc_new[2] = Fz_new/earth.mass;
+
+		for(int i = 0; i < dim; i++){
+			earth.velocity[i] += 0.5*(acc[i] + acc_new[i])*h;
+		}
+
+		fprintf(fp, "%f %f %f %f\n", time, earth.position[0], earth.position[1], earth.position[2]);
+			
+		time += h;
+	}
+
+	fclose(fp);	
 }
 
 double ** solver::setup_matrix(int height,int width)
@@ -142,21 +183,6 @@ void solver::Gravitationalconstant()
 
 void solver::ForwardEuler( int dim, int N, double final_time )
 {
-	/*double **Acc = setup_matrix(N, dim);
-	double **Vel = setup_matrix(N, dim);
-	double **Pos = setup_matrix(N, dim);
-
-	double h = final_time/(N -1);
-
-	//MÅ FÅ INN INITIALVERDIEN PÅ EN ELLER ANNEN MÅTE
-
-	for(int i = 0; i < N; i = i + h){
-		for(int j = 0; i < dim; j++){
-			Vel[i+1][j] = Vel[i][j] + h*Acc[i][j];
-			Pos[i+1][j] = Pos[i][j] + h*Vel[i][j];
-		}
-	}*/
-
 	double time = 0.0;
 	double h = final_time/(double)N;
 

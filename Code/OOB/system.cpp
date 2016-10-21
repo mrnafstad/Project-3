@@ -12,24 +12,27 @@ using namespace std;
 
 int main(){
 
-	int dim = 3, N = 1000;
-	double final_time = 4.0;
+	int dim = 3, N = 10000;
+	double final_time = 1.0;
 
-	planet Earth(0.000003, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	planet Earth(0.000003, 1.0, 0.0, 0.0, 0.0, 6.13, 0.0);
 	planet Sun(1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);	
  	
 
-	/*
+	
 	solver earthsun_Euler;
 	earthsun_Euler.add(Earth);
 	earthsun_Euler.add(Sun);
-	*/
 
-	solver earthsun_VV(1.0);
+	earthsun_Euler.ForwardEuler(dim, N, final_time);
+	
+	/*
+	solver earthsun_VV;
 	earthsun_VV.add(Earth);
 	earthsun_VV.add(Sun);
 
 	earthsun_VV.velVerlet( dim, N, final_time, 1);
+	*/
 
 	return 0;
 }

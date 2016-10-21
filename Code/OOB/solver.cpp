@@ -73,7 +73,7 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number )
 			Fx = Fy = Fz = Fxnew = Fynew = Fznew = 0.0;
 			for ( int nr2 = nr1 + 1; nr2 < total_planets; nr2++) {
 				planet &other = all_planets[nr2];
-				GravitationalForce(other, current, Fx, Fy, Fz);
+				GravitationalForce(current, other, Fx, Fy, Fz);
 			}
 			//next define acceleration, then the real algo
 			acceleration[nr1][0] = -Fx/current.mass;
@@ -85,7 +85,7 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number )
 
 			for ( int nr2 = nr1 + 1; nr2 < total_planets; nr2++) {
 				planet &other = all_planets[nr2];
-				GravitationalForce(other, current, Fxnew, Fynew, Fznew);
+				GravitationalForce(current, other, Fxnew, Fynew, Fznew);
 			}
 			//next define acceleration, then the real algo
 			acceleration_new[nr1][0] = -Fxnew/current.mass;
@@ -142,7 +142,7 @@ void solver::Gravitationalconstant()
 
 void solver::ForwardEuler( int dim, int N, double final_time )
 {
-	double **Acc = setup_matrix(N, dim);
+	/*double **Acc = setup_matrix(N, dim);
 	double **Vel = setup_matrix(N, dim);
 	double **Pos = setup_matrix(N, dim);
 
@@ -155,6 +155,36 @@ void solver::ForwardEuler( int dim, int N, double final_time )
 			Vel[i+1][j] = Vel[i][j] + h*Acc[i][j];
 			Pos[i+1][j] = Pos[i][j] + h*Vel[i][j];
 		}
+	}*/
+
+	double time = 0.0;
+	double h = final_time/(double)N;
+
+	planet &earth = all_planets[0];
+	planet &sun = all_planets[1];
+
+	double Fx, Fy, Fz;
+	double acc[3];
+
+	FILE *fp;
+	fp = fopen("EulerTest.txt", "w+");
+	fprintf(fp, "%f %f %f %f\n", time, earth.position[0], earth.position[1], earth.position[2]);
+
+	while(time < final_time){
+
+		Fx = 0, Fy = 0, Fz = 0;
+		GravitationalForce(earth, sun, Fx, Fy, Fz);
+
+		acc[0] = Fx/earth.mass; acc[1] = Fy/earth.mass; acc[2] = Fz/earth.mass;
+
+		for(int i = 0; i < dim; i++){
+
+			earth.position[i] += h*earth.velocity[i];
+			earth.velocity[i] += h*acc[i];
+		}
+		fprintf(fp, "%f %f %f %f\n", time, earth.position[0], earth.position[1], earth.position[2]);
+			
+		time += h;
 	}
 		
 }

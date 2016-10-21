@@ -66,7 +66,9 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number )
     std::ofstream output_file(filename);
 
 	print_position( output_file, dim, time, print_number );
-
+	
+	FILE *fp;
+	fp = fopen("VerletTest.txt", "w+");
 	while ( time < final_time) {
 		for (int nr1 = 0; nr1 < total_planets; nr1++) {
 			planet &current = all_planets[nr1];
@@ -96,11 +98,13 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number )
 			}
 		}
 		time += h;
-		print_position(output_file, dim, time, print_number );
-		
+		//print_position(output_file, dim, time, print_number );
+		fprintf(fp, "%f %f %f %f\n", time, current.position[0], current.position[1], earth.position[2]);		
 
 	}
-	output_file.close();
+	fclose(fp);
+
+	//output_file.close();
 	delete_matrix(acceleration);
 	delete_matrix(acceleration_new);*/
 

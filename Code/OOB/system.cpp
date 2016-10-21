@@ -15,7 +15,7 @@ int main(){
 	int dim = 3, N = 10000;
 	double final_time = 1.0;
 
-	planet Earth(0.000003, 1.0, 0.0, 0.0, 0.0, 6.13, 0.0);
+	planet Earth(0.000003, 1.0, 0.0, 0.0, 0.0, 2*M_PI, 0.0);
 	planet Sun(1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);	
  	
 

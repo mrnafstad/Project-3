@@ -13,8 +13,8 @@ using namespace std;
 int main(int argc, char * argv[])
 {
 
-	int dim = 3, N = 1000000;
-	double final_time = 10000.0;
+	int dim = 3, N = 100000;
+	double final_time = 100.0;
 	double b = atof(argv[1]);
 
 	planet Earth(0.000003, 1.0, 0.0, 0.0, 0.0, b*M_PI, 0.0);

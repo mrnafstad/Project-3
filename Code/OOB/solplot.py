@@ -35,8 +35,9 @@ for line in f:
 posx = array(posx)
 posy = array(posy)
 
-plot(posx, posy, "g-")
+plot(0, 0, "yo")
+plot(posx, posy, "--")
 xlabel("x")
 ylabel("y")
-legend(["Orbit of earth"])
+legend(["Sun", "Orbit of earth"])
 show()

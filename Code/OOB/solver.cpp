@@ -186,6 +186,8 @@ void solver::ForwardEuler( int dim, int N, double final_time )
 			
 		time += h;
 	}
+
+	fclose(fp);
 		
 }
 

@@ -50,64 +50,7 @@ void solver::print_position(std::ofstream &output, int dimension, double time,in
 }
 
 void solver::velVerlet( int dim, int N, double final_time, int print_number )
-{/*
-	//Will only work for binary system atm
-	double h = final_time/(double)N;
-	double time = 0.0;
-	double** acceleration = setup_matrix(total_planets, 3);
-	double** acceleration_new = setup_matrix(total_planets, 3);
-
-	double Fx, Fy, Fz, Fxnew, Fynew, Fznew;
-
-	// Create files for data storage
-    char *filename = new char[1000];
-
-    sprintf( filename, "clusterVV_%d_%.3f.txt", total_planets, h );
-    std::ofstream output_file(filename);
-
-	print_position( output_file, dim, time, print_number );
-	
-	FILE *fp;
-	fp = fopen("VerletTest.txt", "w+");
-	while ( time < final_time) {
-		for (int nr1 = 0; nr1 < total_planets; nr1++) {
-			planet &current = all_planets[nr1];
-			Fx = Fy = Fz = Fxnew = Fynew = Fznew = 0.0;
-			for ( int nr2 = nr1 + 1; nr2 < total_planets; nr2++) {
-				planet &other = all_planets[nr2];
-				GravitationalForce(current, other, Fx, Fy, Fz);
-			}
-			//next define acceleration, then the real algo
-			acceleration[nr1][0] = -Fx/current.mass;
-			acceleration[nr1][1] = -Fy/current.mass;
-			acceleration[nr1][2] = -Fz/current.mass;
-			for ( int j = 0; j < dim; j++ ) {
-				current.position[j] += h*current.velocity[j] + 0.5*h*h*acceleration[nr1][j];
-			}
-
-			for ( int nr2 = nr1 + 1; nr2 < total_planets; nr2++) {
-				planet &other = all_planets[nr2];
-				GravitationalForce(current, other, Fxnew, Fynew, Fznew);
-			}
-			//next define acceleration, then the real algo
-			acceleration_new[nr1][0] = -Fxnew/current.mass;
-			acceleration_new[nr1][1] = -Fynew/current.mass;
-			acceleration_new[nr1][2] = -Fznew/current.mass;
-			for ( int j = 0; j < dim; j++ ) {
-				current.velocity[j] += 0.5*h*h*( acceleration[nr1][j] + acceleration_new[nr1][j]);
-			}
-		}
-		time += h;
-		//print_position(output_file, dim, time, print_number );
-		fprintf(fp, "%f %f %f %f\n", time, current.position[0], current.position[1], earth.position[2]);		
-
-	}
-	fclose(fp);
-
-	//output_file.close();
-	delete_matrix(acceleration);
-	delete_matrix(acceleration_new);*/
-
+{
 	double time = 0.0;
 	double h = final_time/(double)N;
 

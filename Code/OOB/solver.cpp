@@ -199,3 +199,29 @@ void solver::GravitationalForce(planet &current, planet &other, double &Fx, doub
     Fy -= this->G*current.mass*other.mass*relative_distance[1]/((r*r*r));// + smoothing);
     Fz -= this->G*current.mass*other.mass*relative_distance[2]/((r*r*r));// + smoothing);
 }
+
+void solver::KineticEnergySystem()
+{
+    totalKinetic = 0;
+    for(int nr=0;nr<total_planets;nr++){
+        planet &Current = all_planets[nr];
+        Current.kinetic = Current.KineticEnergy();
+    }
+}
+
+void solver::PotentialEnergySystem(double epsilon)
+{
+    totalPotential = 0;
+    for(int nr=0;nr<total_planets;nr++){
+        planet &Current = all_planets[nr];
+        Current.potential = 0;
+    }
+    for(int nr1=0;nr1<total_planets;nr1++){
+        planet &Current = all_planets[nr1];
+        for(int nr2=nr1+1;nr2<total_planets;nr2++){
+            planet &Other = all_planets[nr2];
+            Current.potential += Current.PotentialEnergy(Other,G,epsilon);
+            Other.potential += Other.PotentialEnergy(Current,G,epsilon);
+        }
+    }
+}

@@ -46,6 +46,18 @@ double planet::distance(planet otherPlanet)
 
     return sqrt(xx*xx + yy*yy + zz*zz);
  }
+
+double planet::KineticEnergy()
+{
+    double velocity2 = (this->velocity[0]*this->velocity[0]) + (this->velocity[1]*this->velocity[1]) + (this->velocity[2]*this->velocity[2]);
+    return 0.5*this->mass*velocity2;
+}
+
+double planet::PotentialEnergy(planet &otherPlanet, double Gconst, double epsilon)
+{
+    if(epsilon==0.0) return -Gconst*this->mass*otherPlanet.mass/this->distance(otherPlanet);
+    else return (Gconst*this->mass*otherPlanet.mass/epsilon)*(atan(this->distance(otherPlanet)/epsilon) - (0.5*M_PI));
+}
 /*
 double planet::GravitationalForce(planet otherPlanet,double Gconst)
 {

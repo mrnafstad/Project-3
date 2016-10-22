@@ -11,6 +11,8 @@ solver::solver()
     radius = 100.0;
     total_mass = 0;
     G = 4*M_PI*M_PI;
+    totalKinetic = 0;
+    totalPotential = 0;
 
 }
 
@@ -20,6 +22,8 @@ solver::solver( double radi )
     radius = radi;
     total_mass = 0;
     G = 4*M_PI*M_PI;
+    totalKinetic = 0;
+    totalPotential = 0;
 }
 
 void solver::add(planet newplanet)
@@ -49,7 +53,7 @@ void solver::print_position(std::ofstream &output, int dimension, double time,in
     }
 }
 
-void solver::velVerlet( int dim, int N, double final_time, int print_number )
+void solver::velVerlet( int dim, int N, double final_time, int print_number, bool energy)
 {
 	double time = 0.0;
 	double h = final_time/(double)N;
@@ -64,6 +68,7 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number )
 	FILE *fp;
 	fp = fopen("VerletTest.txt", "w+");
 	
+	int counter = 0;
 
 	while(time < final_time){
 
@@ -107,6 +112,17 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number )
 
 		fprintf(fp, "\n");
 
+
+		if(energy){
+			if(counter == 0){
+				KineticEnergySystem();
+				PotentialEnergySystem(0.0);
+				printf("Total Kin energy: %e [units],  Total Pot energy: %e\n", totalKinetic, totalPotential);
+			}
+		}
+
+		counter += 1;
+		if(N/counter == 10) counter = 0;
 		time += h;
 
 	}
@@ -206,6 +222,7 @@ void solver::KineticEnergySystem()
     for(int nr=0;nr<total_planets;nr++){
         planet &Current = all_planets[nr];
         Current.kinetic = Current.KineticEnergy();
+        totalKinetic += Current.kinetic;
     }
 }
 
@@ -222,6 +239,7 @@ void solver::PotentialEnergySystem(double epsilon)
             planet &Other = all_planets[nr2];
             Current.potential += Current.PotentialEnergy(Other,G,epsilon);
             Other.potential += Other.PotentialEnergy(Current,G,epsilon);
+            totalPotential += Current.potential;
         }
     }
 }

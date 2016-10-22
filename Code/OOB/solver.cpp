@@ -111,8 +111,8 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number )
 	double time = 0.0;
 	double h = final_time/(double)N;
 
-	planet &earth = all_planets[0];
-	planet &sun = all_planets[1];
+	planet &earth = all_planets[1];
+	planet &sun = all_planets[0];
 
 	double Fx, Fy, Fz, Fx_new, Fy_new, Fz_new;
 	double acc[3];
@@ -120,31 +120,34 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number )
 
 	FILE *fp;
 	fp = fopen("VerletTest.txt", "w+");
-	fprintf(fp, "%f %f %f %f\n", time, earth.position[0], earth.position[1], earth.position[2]);
+	
 
 	while(time < final_time){
+		for ( int j = 1; j < total_planets; j++ ) {
+			planet &thisplanet = all_planets[j];
+			fprintf(fp, "%f %f %f %f\n", time, thisplanet.position[0], thisplanet.position[1], thisplanet.position[2]);
+			Fx = 0; Fy = 0; Fz = 0;
+			GravitationalForce(thisplanet, sun, Fx, Fy, Fz);
 
-		Fx = 0; Fy = 0; Fz = 0;
-		GravitationalForce(earth, sun, Fx, Fy, Fz);
+			acc[0] = Fx/thisplanet.mass; acc[1] = Fy/thisplanet.mass; acc[2] = Fz/thisplanet.mass;
 
-		acc[0] = Fx/earth.mass; acc[1] = Fy/earth.mass; acc[2] = Fz/earth.mass;
+			for(int i = 0; i < dim; i++){
+				thisplanet.position[i] += h*thisplanet.velocity[i] + 0.5*acc[i]*h*h;
+			}
 
-		for(int i = 0; i < dim; i++){
-			earth.position[i] += h*earth.velocity[i] + 0.5*acc[i]*h*h;
+			Fx_new = 0; Fy_new = 0; Fz_new = 0;
+			GravitationalForce(thisplanet, sun, Fx_new, Fy_new, Fz_new);
+
+			acc_new[0] = Fx_new/thisplanet.mass; acc_new[1] = Fy_new/thisplanet.mass; acc_new[2] = Fz_new/thisplanet.mass;
+
+			for(int i = 0; i < dim; i++){
+				thisplanet.velocity[i] += 0.5*(acc[i] + acc_new[i])*h;
+			}
+
+			fprintf(fp, "%f %f %f %f\n", time, thisplanet.position[0], thisplanet.position[1], thisplanet.position[2]);
 		}
-
-		Fx_new = 0; Fy_new = 0; Fz_new = 0;
-		GravitationalForce(earth, sun, Fx_new, Fy_new, Fz_new);
-
-		acc_new[0] = Fx_new/earth.mass; acc_new[1] = Fy_new/earth.mass; acc_new[2] = Fz_new/earth.mass;
-
-		for(int i = 0; i < dim; i++){
-			earth.velocity[i] += 0.5*(acc[i] + acc_new[i])*h;
-		}
-
-		fprintf(fp, "%f %f %f %f\n", time, earth.position[0], earth.position[1], earth.position[2]);
-			
 		time += h;
+
 	}
 
 	fclose(fp);	

@@ -13,8 +13,8 @@ using namespace std;
 int main(int argc, char * argv[])
 {
 
-	int dim = 3, N = 100000;
-	double final_time = 100.0;
+	int dim = 3, N = 10000;
+	double final_time = 1.0;
 	double b = atof(argv[1]);
 
 	planet Earth(0.000003, 1.0, 0.0, 0.0, 0.0, b*M_PI, 0.0);
@@ -30,8 +30,8 @@ int main(int argc, char * argv[])
 	*/
 	
 	solver earthsun_VV;
-	earthsun_VV.add(Earth);
 	earthsun_VV.add(Sun);
+	earthsun_VV.add(Earth);
 
 	earthsun_VV.velVerlet( dim, N, final_time, 1);
 	

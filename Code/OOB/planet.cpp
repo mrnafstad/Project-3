@@ -12,6 +12,7 @@ planet::planet()
     velocity[2] = 0.;
     potential = 0.;
     kinetic = 0.;
+    ang_mom = 0.;
 }
 
 planet::planet(double M, double x, double y, double z, double vx, double vy, double vz)
@@ -25,6 +26,7 @@ planet::planet(double M, double x, double y, double z, double vx, double vy, dou
     velocity[2] = vz;
     potential = 0.;
     kinetic = 0.;
+    ang_mom = 0.;
 }
 
 
@@ -57,6 +59,15 @@ double planet::PotentialEnergy(planet &otherPlanet, double Gconst, double epsilo
 {
     if(epsilon==0.0) return -Gconst*this->mass*otherPlanet.mass/this->distance(otherPlanet);
     else return (Gconst*this->mass*otherPlanet.mass/epsilon)*(atan(this->distance(otherPlanet)/epsilon) - (0.5*M_PI));
+}
+
+double planet::AngularMomentum()
+{
+    double Lx = this->position[1]*this->mass*this->velocity[2] - this->position[2]*this->mass*this->velocity[1];
+    double Ly = this->position[2]*this->mass*this->velocity[0] - this->position[0]*this->mass*this->velocity[2];
+    double Lz = this->position[0]*this->mass*this->velocity[1] - this->position[1]*this->mass*this->velocity[0];
+    return sqrt(Lx*Lx + Ly*Ly + Lz*Lz);
+
 }
 /*
 double planet::GravitationalForce(planet otherPlanet,double Gconst)

@@ -17,6 +17,7 @@ public:
 	double velocity[3];
 	double potential;
 	double kinetic;
+	double ang_mom;
 
 	//initializers
 	planet();
@@ -28,7 +29,7 @@ public:
     double Acceleration(planet otherPlanet, double Gconst);
     double KineticEnergy();
     double PotentialEnergy(planet &otherPlanet, double Gconst, double epsilon);
-		
+	double AngularMomentum();
 };
 
 #endif //PLANET_H

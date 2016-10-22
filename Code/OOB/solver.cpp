@@ -13,6 +13,7 @@ solver::solver()
     G = 4*M_PI*M_PI;
     totalKinetic = 0;
     totalPotential = 0;
+    totalAngularMomentum = 0;
 
 }
 
@@ -24,6 +25,7 @@ solver::solver( double radi )
     G = 4*M_PI*M_PI;
     totalKinetic = 0;
     totalPotential = 0;
+    totalAngularMomentum = 0;
 }
 
 void solver::add(planet newplanet)
@@ -53,7 +55,7 @@ void solver::print_position(std::ofstream &output, int dimension, double time,in
     }
 }
 
-void solver::velVerlet( int dim, int N, double final_time, int print_number, bool energy)
+void solver::velVerlet( int dim, int N, double final_time, int print_number, bool energy, bool stationary)
 {
 	double time = 0.0;
 	double h = final_time/(double)N;
@@ -70,11 +72,17 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number, boo
 	
 	int counter = 0;
 
+	if(energy) printf("Total Kinetic Energy  Total Potential Energy  Total Angular Momentum\n");
+
+	int j;
+	if(stationary) j = 1;
+	else j = 0;
+
 	while(time < final_time){
 
 		fprintf(fp, "%f ", time);
 
-		for ( int j = 1; j < total_planets; j++ ) {
+		for ( j; j < total_planets; j++ ) {
 			planet &thisplanet = all_planets[j];
 			Fx = 0; Fy = 0; Fz = 0;
 			GravitationalForce(thisplanet, sun, Fx, Fy, Fz);
@@ -117,7 +125,8 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number, boo
 			if(counter == 0){
 				KineticEnergySystem();
 				PotentialEnergySystem(0.0);
-				printf("Total Kin energy: %e [units],  Total Pot energy: %e\n", totalKinetic, totalPotential);
+				AngularMomentumSystem();
+				printf("   %e        %e            %e\n", totalKinetic, totalPotential, totalAngularMomentum);
 			}
 		}
 
@@ -241,5 +250,14 @@ void solver::PotentialEnergySystem(double epsilon)
             Other.potential += Other.PotentialEnergy(Current,G,epsilon);
             totalPotential += Current.potential;
         }
+    }
+}
+
+void solver::AngularMomentumSystem(){
+	totalAngularMomentum = 0;
+    for(int nr=0;nr<total_planets;nr++){
+        planet &Current = all_planets[nr];
+        Current.ang_mom = Current.AngularMomentum();
+        totalAngularMomentum += Current.ang_mom;
     }
 }

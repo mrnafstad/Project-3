@@ -123,6 +123,9 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number )
 	
 
 	while(time < final_time){
+
+		fprintf(fp, "%f ", time);
+
 		for ( int j = 1; j < total_planets; j++ ) {
 			planet &thisplanet = all_planets[j];
 			Fx = 0; Fy = 0; Fz = 0;
@@ -156,8 +159,11 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number )
 				thisplanet.velocity[i] += 0.5*(acc[i] + acc_new[i])*h;
 			}
 
-			fprintf(fp, "%f %f %f %f\n", time, thisplanet.position[0], thisplanet.position[1], thisplanet.position[2]);
+			fprintf(fp, "%f %f %f ", thisplanet.position[0], thisplanet.position[1], thisplanet.position[2]);
 		}
+
+		fprintf(fp, "\n");
+
 		time += h;
 
 	}

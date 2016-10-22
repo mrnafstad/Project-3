@@ -17,7 +17,7 @@ int main(int argc, char * argv[])
 	double final_time = 1.0;
 	double b = atof(argv[1]);
 
-	planet Earth(0.000003, 1.0, 0.0, 0.0, 0.0, b*M_PI, 0.0);
+	planet Earth(0.000003, 1.0, 0.0, 0.0, 0.0, 2*M_PI, 0.0);
 	planet Sun(1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);	
 	planet Jupiter(0.001, 5.2, 0.0, 0.0, 0.0, 2*0.45*M_PI, 0.0);
  	

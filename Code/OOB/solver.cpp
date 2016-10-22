@@ -125,9 +125,15 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number )
 	while(time < final_time){
 		for ( int j = 1; j < total_planets; j++ ) {
 			planet &thisplanet = all_planets[j];
-			fprintf(fp, "%f %f %f %f\n", time, thisplanet.position[0], thisplanet.position[1], thisplanet.position[2]);
 			Fx = 0; Fy = 0; Fz = 0;
 			GravitationalForce(thisplanet, sun, Fx, Fy, Fz);
+			for ( int k = 1; k < total_planets; k++ ) {
+				if ( k != j ) {
+					planet other_planet = all_planets[k];
+					GravitationalForce( thisplanet, other_planet, Fx, Fy, Fz );
+				}
+
+			}
 
 			acc[0] = Fx/thisplanet.mass; acc[1] = Fy/thisplanet.mass; acc[2] = Fz/thisplanet.mass;
 
@@ -137,7 +143,13 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number )
 
 			Fx_new = 0; Fy_new = 0; Fz_new = 0;
 			GravitationalForce(thisplanet, sun, Fx_new, Fy_new, Fz_new);
+			for ( int k = 1; k < total_planets; k++ ) {
+				if ( k != j ) {
+					planet other_planet = all_planets[k];
+					GravitationalForce( thisplanet, other_planet, Fx_new, Fy_new, Fz_new );
+				}
 
+			}
 			acc_new[0] = Fx_new/thisplanet.mass; acc_new[1] = Fy_new/thisplanet.mass; acc_new[2] = Fz_new/thisplanet.mass;
 
 			for(int i = 0; i < dim; i++){

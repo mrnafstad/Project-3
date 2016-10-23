@@ -14,18 +14,18 @@ using namespace std;
 int main(int argc, char * argv[])
 {
 
-	int dim = 3, N = 100000;
+	int dim = 3, N = 1000000;
 	double final_time = 20.0;
 	double b = atof(argv[1]);
 	double conv = 365.25;
 	bool energy = true;
 	bool stationary = false;
 
-	planet Earth(0.000003, 1.0, 0.0, 0.0, 0.0, 2*M_PI, 0.0);
-	//planet Earth(0.000003, 0.8757, 0.4827, -0.00018, -0.00856*conv, 0.015*conv, -0.000000846*conv);
+	//planet Earth(0.000003, 1.0, 0.0, 0.0, 0.0, 2*M_PI, 0.0);
+	planet Earth(0.000003, 0.8757, 0.4827, -0.00018, -0.00856*conv, 0.015*conv, -0.000000846*conv);
 	planet Sun(1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-	planet Jupiter(0.001, 5.2, 0.0, 0.0, 0.0, 2*0.45*M_PI, 0.0);	
-	//planet Jupiter(0.001, -5.42, -0.509, 0.1234, 0.00061*conv, -0.007157*conv, 0.0000161*conv);
+	//planet Jupiter(0.001, 5.2, 0.0, 0.0, 0.0, 2*0.45*M_PI, 0.0);	
+	planet Jupiter(0.001, -5.42, -0.509, 0.1234, 0.00061*conv, -0.007157*conv, 0.0000161*conv);
  	
 
 	/*

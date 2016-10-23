@@ -3,8 +3,6 @@
 #include <cmath>
 #include <cstring>
 #include <fstream>
-//#include <random>
-//#include <chrono>
 #include <time.h>
 #include "planet.h"
 #include "solver.h"
@@ -20,13 +18,14 @@ int main(int argc, char * argv[])
 	double conv = 365.25;
 	bool energy = true;
 	bool stationary = true;
+	bool relativity = false;
 
 	planet Earth(0.000003, 1.0, 0.0, 0.0, 0.0, 2*M_PI, 0.0);
 	//planet Earth(0.000003, 0.8757, 0.4827, -0.00018, -0.00856*conv, 0.015*conv, -0.000000846*conv);
 	planet Sun(1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 	//planet Jupiter(0.001, 5.2, 0.0, 0.0, 0.0, 2*0.45*M_PI, 0.0);	
 	//planet Jupiter(0.001, -5.42, -0.509, 0.1234, 0.00061*conv, -0.007157*conv, 0.0000161*conv);
- 	
+ 	//planet Mercury(1.652*pow(10, -7), 0.3075, 0.0, 0.0, 0.0, 12.44, 0.0);
 
 	/*
 	solver earthsun_Euler;
@@ -36,12 +35,13 @@ int main(int argc, char * argv[])
 	earthsun_Euler.ForwardEuler(dim, N, final_time);
 	*/
 	
-	solver earthsun_VV;
-	earthsun_VV.add(Sun);
-	earthsun_VV.add(Earth);
-	//earthsun_VV.add(Jupiter);
+	solver system_VV;
+	system_VV.add(Sun);
+	system_VV.add(Earth);
+	//system_VV.add(Jupiter);
+	//system_VV.add(Mercury);
 
-	earthsun_VV.velVerlet( dim, N, final_time, 1, energy, stationary);
+	system_VV.velVerlet( dim, N, final_time, 1, energy, stationary, relativity);
 	
 
 	return 0;

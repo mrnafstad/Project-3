@@ -55,12 +55,12 @@ void solver::print_position(std::ofstream &output, int dimension, double time,in
     }
 }
 
-void solver::velVerlet( int dim, int N, double final_time, int print_number, bool energy, bool stationary)
+void solver::velVerlet( int dim, int N, double final_time, int print_number, bool energy, bool stationary, bool relativity)
 {
 	double time = 0.0;
 	double h = final_time/(double)N;
 
-	planet &earth = all_planets[1];
+	//planet &earth = all_planets[1];
 	planet &sun = all_planets[0];
 
 	double Fx, Fy, Fz, Fx_new, Fy_new, Fz_new;
@@ -72,24 +72,25 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number, boo
 	
 	int counter = 0;
 
-	if(energy) printf("Total Kinetic Energy  Total Potential Energy  Total Angular Momentum\n");
-
-	int j;
-	if(stationary) j = 1;
-	else j = 0;
+	if(energy) printf("Time       Total Kinetic Energy  Total Potential Energy  Total Angular Momentum\n");
 
 	while(time < final_time){
 
 		fprintf(fp, "%f ", time);
 
+		//Variable that loops over the planets under. j = 0 is the sun.
+		int j;
+		if(stationary) j = 1;
+		else j = 0;
+
 		for ( j; j < total_planets; j++ ) {
 			planet &thisplanet = all_planets[j];
 			Fx = 0; Fy = 0; Fz = 0;
-			GravitationalForce(thisplanet, sun, Fx, Fy, Fz);
+			GravitationalForce(thisplanet, sun, Fx, Fy, Fz, relativity);
 			for ( int k = 1; k < total_planets; k++ ) {
 				if ( k != j ) {
 					planet other_planet = all_planets[k];
-					GravitationalForce( thisplanet, other_planet, Fx, Fy, Fz );
+					GravitationalForce( thisplanet, other_planet, Fx, Fy, Fz, relativity);
 				}
 
 			}
@@ -101,11 +102,11 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number, boo
 			}
 
 			Fx_new = 0; Fy_new = 0; Fz_new = 0;
-			GravitationalForce(thisplanet, sun, Fx_new, Fy_new, Fz_new);
+			GravitationalForce(thisplanet, sun, Fx_new, Fy_new, Fz_new, relativity);
 			for ( int k = 1; k < total_planets; k++ ) {
 				if ( k != j ) {
 					planet other_planet = all_planets[k];
-					GravitationalForce( thisplanet, other_planet, Fx_new, Fy_new, Fz_new );
+					GravitationalForce( thisplanet, other_planet, Fx_new, Fy_new, Fz_new, relativity);
 				}
 
 			}
@@ -126,7 +127,7 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number, boo
 				KineticEnergySystem();
 				PotentialEnergySystem(0.0);
 				AngularMomentumSystem();
-				printf("   %e        %e            %e\n", totalKinetic, totalPotential, totalAngularMomentum);
+				printf("%f      %e        %e            %e\n", time, totalKinetic, totalPotential, totalAngularMomentum);
 			}
 		}
 
@@ -174,7 +175,7 @@ void solver::Gravitationalconstant()
 }*/
 
 
-void solver::ForwardEuler( int dim, int N, double final_time )
+void solver::ForwardEuler( int dim, int N, double final_time, bool relativity)
 {
 	double time = 0.0;
 	double h = final_time/(double)N;
@@ -192,7 +193,7 @@ void solver::ForwardEuler( int dim, int N, double final_time )
 	while(time < final_time){
 
 		Fx = 0, Fy = 0, Fz = 0;
-		GravitationalForce(earth, sun, Fx, Fy, Fz);
+		GravitationalForce(earth, sun, Fx, Fy, Fz, relativity);
 
 		acc[0] = Fx/earth.mass; acc[1] = Fy/earth.mass; acc[2] = Fz/earth.mass;
 
@@ -210,19 +211,26 @@ void solver::ForwardEuler( int dim, int N, double final_time )
 		
 }
 
-void solver::GravitationalForce(planet &current, planet &other, double &Fx, double &Fy, double &Fz){   // Function that calculates the gravitational force between two objects, component by component.
+void solver::GravitationalForce(planet &current, planet &other, double &Fx, double &Fy, double &Fz, bool relativity){   // Function that calculates the gravitational force between two objects, component by component.
 
     // Calculate relative distance between current planet and all other planets
     double relative_distance[3];
 
     for(int j = 0; j < 3; j++) relative_distance[j] = current.position[j]-other.position[j];
     double r = current.distance(other);
-    //double smoothing = epsilon*epsilon*epsilon;
 
     // Calculate the forces in each direction
-    Fx -= this->G*current.mass*other.mass*relative_distance[0]/((r*r*r));// + smoothing);
-    Fy -= this->G*current.mass*other.mass*relative_distance[1]/((r*r*r));// + smoothing);
-    Fz -= this->G*current.mass*other.mass*relative_distance[2]/((r*r*r));// + smoothing);
+    Fx -= this->G*current.mass*other.mass*relative_distance[0]/((r*r*r));
+    Fy -= this->G*current.mass*other.mass*relative_distance[1]/((r*r*r));
+    Fz -= this->G*current.mass*other.mass*relative_distance[2]/((r*r*r));
+
+    if(relativity){
+    	double angmom2 = current.AngularMomentum()*current.AngularMomentum()/(current.mass*current.mass);
+    	double c = 63197.8;  //Speed of light AU/yr
+    	Fx *= (1 + 3*angmom2/(r*r*c*c));
+    	Fy *= (1 + 3*angmom2/(r*r*c*c));
+    	Fz *= (1 + 3*angmom2/(r*r*c*c));
+    }
 }
 
 void solver::KineticEnergySystem()

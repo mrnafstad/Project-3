@@ -30,11 +30,11 @@ public:
 	void add(planet newPlanet);
 	void addM(planet newPlanet);
 	void print_position(std::ofstream &output, int dim, double time, int number);
-    void ForwardEuler(int dim, int N, double final_time);
-    void velVerlet(int dim, int N, double final_time, int print_number, bool energy, bool stationary);
+    void ForwardEuler(int dim, int N, double final_time, bool relativity);
+    void velVerlet(int dim, int N, double final_time, int print_number, bool energy, bool stationary, bool relativity);
     double **setup_matrix(int height, int width);
     void delete_matrix(double **matrix);
-    void GravitationalForce(planet &current, planet &other, double &Fx, double &Fy, double &Fz);
+    void GravitationalForce(planet &current, planet &other, double &Fx, double &Fy, double &Fz, bool relativity);
     void KineticEnergySystem();
     void PotentialEnergySystem(double epsilon);
     void AngularMomentumSystem();

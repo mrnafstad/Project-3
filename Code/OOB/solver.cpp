@@ -117,13 +117,13 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number, boo
 				thisplanet.position[i] += h*thisplanet.velocity[i] + 0.5*acc[i]*h*h;
 			}
 			
+			Fx_new = 0; Fy_new = 0; Fz_new = 0;
 			if (stationary) {
 				GravitationalForce(thisplanet, sun, Fx_new, Fy_new, Fz_new);
 				k = 1;
 			}
 			else k = 0;			
 			
-			Fx_new = 0; Fy_new = 0; Fz_new = 0;
 			for ( k; k < total_planets; k++ ) {
 				if ( k != j ) {
 					planet other_planet = all_planets[k];

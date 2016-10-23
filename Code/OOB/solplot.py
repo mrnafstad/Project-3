@@ -15,10 +15,12 @@ for line in f:
 Pos = array(read_lines)
 
 plot(0, 0, "yo")
+color=iter(cm.rainbow(np.linspace(0.2, 1, planets)))
 for i in range(planets):
-	plot(Pos[:, 0 +3*i], Pos[:, 1 + 3*i], "--")
+	c = next(color)
+	plot(Pos[:, 0 +3*i], Pos[:, 1 + 3*i], c = c)
 	hold('on')
 xlabel("x[AU]")
 ylabel("y[AU]")
-#legend(["Sun", "Orbit of earth"])
+legend(["Sun", "Earth"])#, "Jupiter"])
 show()

@@ -81,7 +81,7 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number, boo
 		for ( int i = 1; i < total_planets; i++ ) {
 			for (int k = 0; k < dim; k++ ) {
 				planet &thisother = all_planets[i];
-				sun.velocity[k] += thisother.velocity[k];
+				sun.velocity[k] += thisother.velocity[k]*thisother.mass/sun.mass;
 			}
 		}
 	}
@@ -89,7 +89,8 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number, boo
 	while(time < final_time){
 
 		fprintf(fp, "%f ", time);
-
+		if ( stationary ) j = 1;
+		else j = 0;
 		for ( j; j < total_planets; j++ ) {
 			planet &thisplanet = all_planets[j];
 			Fx = 0; Fy = 0; Fz = 0;
@@ -145,34 +146,6 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number, boo
 	}
 
 	fclose(fp);	
-}
-
-double ** solver::setup_matrix(int height,int width)
-{   // Function to set up a 2D array
-
-    // Set up matrix
-    double **matrix;
-    matrix = new double*[height];
-
-    // Allocate memory
-    for(int i=0;i<height;i++)
-        matrix[i] = new double[width];
-
-    // Set values to zero
-    for(int i = 0; i < height; i++){
-        for(int j = 0; j < width; j++){
-            matrix[i][j] = 0.0;
-        }
-    }
-    return matrix;
-}
-
-void solver::delete_matrix(double **matrix)
-{   // Function to deallocate memory of a 2D array
-
-    for (int i=0; i<total_planets; i++)
-        delete [] matrix[i];
-    delete [] matrix;
 }
 
 /*

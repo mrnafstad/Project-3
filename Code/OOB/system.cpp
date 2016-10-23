@@ -12,14 +12,14 @@ using namespace std;
 int main(int argc, char * argv[])
 {
 
-	int dim = 3, N = pow(10,6);
-	double final_time = 20.5;
+	int dim = 3, N = pow(10,5);
+	double final_time = 1.0;
 	double conv = 365.25;
 
 	bool energy = false;
 	bool stationary = true;
-	bool relativity = true;
-	bool MercPeri = true;
+	bool relativity = false;
+	bool MercPeri = false;
 
 	//planet Earth(0.000003, 1.0, 0.0, 0.0, 0.0, 2*M_PI, 0.0);
 	//planet Earth(0.000003, 0.8757, 0.4827, -0.00018, -0.00856*conv, 0.015*conv, -0.000000846*conv);

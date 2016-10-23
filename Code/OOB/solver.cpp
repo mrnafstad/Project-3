@@ -94,7 +94,7 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number, boo
 
 	while(time < final_time){
 
-		if(MercPeri=false) fprintf(fp, "%f ", time);
+		if(!MercPeri) fprintf(fp, "%f ", time);
 
 		if(stationary) j = 1;
 		else j = 0;
@@ -103,19 +103,21 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number, boo
 			planet &thisplanet = all_planets[j];
 
 
-			double rCurrent = thisplanet.distance(sun);
+			if(MercPeri){
+				double rCurrent = thisplanet.distance(sun);
 
-			if( rCurrent > rPrevious && rPrevious < rPreviousPrevious){
-				double x = previousPosition[0];
-				double y = previousPosition[1];
-				printf("Time: %f, Perihelion angle: %f rad = %f ''\n", time, atan2(y,x), atan2(y,x)*648000/M_PI);
-				//fprintf(per, "Time: %f, Perihelion angle: %f rad = %f ''\n", time, atan2(y,x), atan2(y,x)*648000/M_PI);
-			}
+				if( rCurrent > rPrevious && rPrevious < rPreviousPrevious){
+					double x = previousPosition[0];
+					double y = previousPosition[1];
+					printf("Time: %f, Perihelion angle: %f rad = %f ''\n", time, atan2(y,x), atan2(y,x)*648000/M_PI);
+					//fprintf(per, "Time: %f, Perihelion angle: %f rad = %f ''\n", time, atan2(y,x), atan2(y,x)*648000/M_PI);
+				}
 
-			rPreviousPrevious = rPrevious;
-			rPrevious = rCurrent;
-			for(int i = 0; i < 3; i++){
-				previousPosition[i] = thisplanet.position[i];
+				rPreviousPrevious = rPrevious;
+				rPrevious = rCurrent;
+				for(int i = 0; i < 3; i++){
+					previousPosition[i] = thisplanet.position[i];
+				}
 			}
 
 			//if(MercPeri) MercuryPerihelion(thisplanet, sun, rPreviousPrevious, rPrevious, previousPosition, time);
@@ -163,10 +165,10 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number, boo
 				thisplanet.velocity[i] += 0.5*(acc[i] + acc_new[i])*h;
 			}
 
-			if(MercPeri=false) fprintf(fp, "%f %f %f ", thisplanet.position[0], thisplanet.position[1], thisplanet.position[2]);
+			if(!MercPeri) fprintf(fp, "%f %f %f ", thisplanet.position[0], thisplanet.position[1], thisplanet.position[2]);
 		}
 
-		if(MercPeri=false) fprintf(fp, "\n");
+		if(!MercPeri) fprintf(fp, "\n");
 
 
 

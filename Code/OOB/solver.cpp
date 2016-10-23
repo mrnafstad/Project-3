@@ -55,28 +55,34 @@ void solver::print_position(std::ofstream &output, int dimension, double time,in
     }
 }
 
-void solver::velVerlet( int dim, int N, double final_time, int print_number, bool energy, bool stationary, bool relativity)
+void solver::velVerlet( int dim, int N, double final_time, int print_number, bool energy, bool stationary, bool relativity, bool MercPeri)
 {
 	double time = 0.0;
 	double h = final_time/(double)N;
 
-	//planet &earth = all_planets[1];
 	planet &sun = all_planets[0];
 
 	double Fx, Fy, Fz, Fx_new, Fy_new, Fz_new;
 	double acc[3];
 	double acc_new[3];
 
+	double rPreviousPrevious = 0;
+	double rPrevious = 0;
+	double previousPosition[3] = {0, 0, 0};
+
+	//FILE *per;
+	//per = fopen("MercuryPerihelion.txt", "w+");
 	FILE *fp;
 	fp = fopen("VerletTest.txt", "w+");
-	
+
+
 	int counter = 0;
 
 	if(energy) printf("Time       Total Kinetic Energy  Total Potential Energy  Total Angular Momentum\n");
 
 	while(time < final_time){
 
-		fprintf(fp, "%f ", time);
+		if(MercPeri=false) fprintf(fp, "%f ", time);
 
 		//Variable that loops over the planets under. j = 0 is the sun.
 		int j;
@@ -85,6 +91,27 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number, boo
 
 		for ( j; j < total_planets; j++ ) {
 			planet &thisplanet = all_planets[j];
+
+
+			double rCurrent = thisplanet.distance(sun);
+
+			if( rCurrent > rPrevious && rPrevious < rPreviousPrevious){
+				double x = previousPosition[0];
+				double y = previousPosition[1];
+				printf("Time: %f, Perihelion angle: %f rad = %f ''\n", time, atan2(y,x), atan2(y,x)*648000/M_PI);
+				//fprintf(per, "Time: %f, Perihelion angle: %f rad = %f ''\n", time, atan2(y,x), atan2(y,x)*648000/M_PI);
+			}
+
+			rPreviousPrevious = rPrevious;
+			rPrevious = rCurrent;
+			for(int i = 0; i < 3; i++){
+				previousPosition[i] = thisplanet.position[i];
+			}
+
+			//if(MercPeri) MercuryPerihelion(thisplanet, sun, rPreviousPrevious, rPrevious, previousPosition, time);
+
+			printf("%f", previousPosition[0]);
+
 			Fx = 0; Fy = 0; Fz = 0;
 			GravitationalForce(thisplanet, sun, Fx, Fy, Fz, relativity);
 			for ( int k = 1; k < total_planets; k++ ) {
@@ -116,10 +143,10 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number, boo
 				thisplanet.velocity[i] += 0.5*(acc[i] + acc_new[i])*h;
 			}
 
-			fprintf(fp, "%f %f %f ", thisplanet.position[0], thisplanet.position[1], thisplanet.position[2]);
+			if(MercPeri=false) fprintf(fp, "%f %f %f ", thisplanet.position[0], thisplanet.position[1], thisplanet.position[2]);
 		}
 
-		fprintf(fp, "\n");
+		if(MercPeri=false) fprintf(fp, "\n");
 
 
 		if(energy){
@@ -137,15 +164,9 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number, boo
 
 	}
 
-	fclose(fp);	
+	//fclose(per);	
+	fclose(fp);
 }
-
-
-/*
-void solver::Gravitationalconstant()
-{
-	G = 4*M_PI*M_PI/32 * radius * radius * radius / mass;
-}*/
 
 
 void solver::ForwardEuler( int dim, int N, double final_time, bool relativity)
@@ -241,4 +262,21 @@ void solver::AngularMomentumSystem(){
         Current.ang_mom = Current.AngularMomentum();
         totalAngularMomentum += Current.ang_mom;
     }
+}
+
+void solver::MercuryPerihelion(planet &thisplanet, planet &sun, double &rPreviousPrevious, double &rPrevious, double* previousPosition, double time){
+	double rCurrent = thisplanet.distance(sun);
+
+	if( rCurrent > rPrevious && rPrevious < rPreviousPrevious){
+		double x = previousPosition[0];
+		double y = previousPosition[1];
+		printf("Time: %f, Perihelion angle: %f rad = %f ''\n", time, atan2(y,x), atan2(y,x)*648000/M_PI);
+		//fprintf(per, "Time: %f, Perihelion angle: %f rad = %f ''\n", time, atan2(y,x), atan2(y,x)*648000/M_PI);
+	}
+
+	rPreviousPrevious = rPrevious;
+	rPrevious = rCurrent;
+	for(int i = 0; i < 3; i++){
+		previousPosition[i] = thisplanet.position[i];
+	}
 }

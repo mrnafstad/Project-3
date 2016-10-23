@@ -39,7 +39,7 @@ int main(int argc, char * argv[])
  	planet Saturn(0.00028, -2.226, -9.785, 0.2587, 5.134e-3*conv, -1.2544e-3*conv, -1.828e-4*conv);
  	planet Uranus(4.365e-5, 18.451, 7.589, -0.2108, -1.5249e-3*conv, 3.454e-3*conv, 3.247e-5*conv);
  	planet Neptune(5.149e-5, 28.27, -9.898, -0.4476, 1.017e-3*conv, 2.981e-3*conv, -8.516e-5*conv);
-
+	
 	/*
 	solver earthsun_Euler;
 	earthsun_Euler.add(Earth);
@@ -59,7 +59,7 @@ int main(int argc, char * argv[])
 	system_VV.add(Uranus);
 	system_VV.add(Neptune);
 
-	system_VV.velVerlet( dim, N, final_time, 1, energy, stationary, relativity, MercPeri);
+	system_VV.velVerlet( dim, N, final_time, energy, stationary, relativity, MercPeri);
 	
 
 	return 0;

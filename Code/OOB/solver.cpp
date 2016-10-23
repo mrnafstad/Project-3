@@ -55,7 +55,7 @@ void solver::print_position(std::ofstream &output, int dimension, double time,in
     }
 }
 
-void solver::velVerlet( int dim, int N, double final_time, int print_number, bool energy, bool stationary, bool relativity, bool MercPeri)
+void solver::velVerlet( int dim, int N, double final_time, bool energy, bool stationary, bool relativity, bool MercPeri)
 {
 	double time = 0.0;
 	double h = final_time/(double)N;
@@ -72,8 +72,9 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number, boo
 
 	//FILE *per;
 	//per = fopen("MercuryPerihelion.txt", "w+");
-	FILE *fp;
-	fp = fopen("VerletTest.txt", "w+");
+	FILE *fp, *per;
+	if(!MercPeri) fp = fopen("VerletTest.txt", "w+");
+	else per = fopen("MercuryPerihelion.txt", "w+"); 
 
 
 	int counter = 0;
@@ -103,7 +104,7 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number, boo
 			planet &thisplanet = all_planets[j];
 
 
-			if(MercPeri){
+			/*if(MercPeri){
 				double rCurrent = thisplanet.distance(sun);
 
 				if( rCurrent > rPrevious && rPrevious < rPreviousPrevious){
@@ -118,9 +119,9 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number, boo
 				for(int i = 0; i < 3; i++){
 					previousPosition[i] = thisplanet.position[i];
 				}
-			}
+			}*/
 
-			//if(MercPeri) MercuryPerihelion(thisplanet, sun, rPreviousPrevious, rPrevious, previousPosition, time);
+			if(MercPeri) MercuryPerihelion(thisplanet, sun, rPreviousPrevious, rPrevious, previousPosition, time, per);
 
 			Fx = 0; Fy = 0; Fz = 0;
 			
@@ -186,9 +187,9 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number, boo
 		time += h;
 
 	}
-
-	//fclose(per);	
-	fclose(fp);
+	
+	if(!MercPeri) fclose(fp);
+	else fclose(per);
 }
 
 
@@ -287,14 +288,14 @@ void solver::AngularMomentumSystem(){
     }
 }
 
-void solver::MercuryPerihelion(planet &thisplanet, planet &sun, double &rPreviousPrevious, double &rPrevious, double* previousPosition, double time){
+void solver::MercuryPerihelion(planet &thisplanet, planet &sun, double &rPreviousPrevious, double &rPrevious, double previousPosition[], double time, FILE *per){
 	double rCurrent = thisplanet.distance(sun);
 
 	if( rCurrent > rPrevious && rPrevious < rPreviousPrevious){
 		double x = previousPosition[0];
 		double y = previousPosition[1];
 		printf("Time: %f, Perihelion angle: %f rad = %f ''\n", time, atan2(y,x), atan2(y,x)*648000/M_PI);
-		//fprintf(per, "Time: %f, Perihelion angle: %f rad = %f ''\n", time, atan2(y,x), atan2(y,x)*648000/M_PI);
+		fprintf(per, "Time: %f, Perihelion angle: %f rad = %f ''\n", time, atan2(y,x), atan2(y,x)*648000/M_PI);
 	}
 
 	rPreviousPrevious = rPrevious;

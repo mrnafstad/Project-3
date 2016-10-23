@@ -31,12 +31,12 @@ public:
 	void addM(planet newPlanet);
 	void print_position(std::ofstream &output, int dim, double time, int number);
     void ForwardEuler(int dim, int N, double final_time, bool relativity);
-    void velVerlet(int dim, int N, double final_time, int print_number, bool energy, bool stationary, bool relativity, bool MercPeri);
+    void velVerlet(int dim, int N, double final_time, bool energy, bool stationary, bool relativity, bool MercPeri);
     void GravitationalForce(planet &current, planet &other, double &Fx, double &Fy, double &Fz, bool relativity);
     void KineticEnergySystem();
     void PotentialEnergySystem(double epsilon);
     void AngularMomentumSystem();
-    void MercuryPerihelion(planet &thisplanet, planet &sun, double &rPreviousPrevious, double &rPrevious, double* previousPosition, double time);
+    void MercuryPerihelion(planet &thisplanet, planet &sun, double &rPreviousPrevious, double &rPrevious, double previousPosition[], double time, FILE *per);
 };
 
 #endif //SOLVER_H

@@ -120,8 +120,6 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number, boo
 
 			//if(MercPeri) MercuryPerihelion(thisplanet, sun, rPreviousPrevious, rPrevious, previousPosition, time);
 
-			printf("%f", previousPosition[0]);
-
 			Fx = 0; Fy = 0; Fz = 0;
 			
 

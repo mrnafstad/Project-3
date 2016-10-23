@@ -14,8 +14,8 @@ using namespace std;
 int main(int argc, char * argv[])
 {
 
-	int dim = 3, N = 1000000;
-	double final_time = 20.0;
+	int dim = 3, N = 100000;
+	double final_time = 13.0;
 	double b = atof(argv[1]);
 	double conv = 365.25;
 	bool energy = true;

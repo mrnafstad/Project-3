@@ -74,7 +74,7 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number, boo
 
 	if(energy) printf("Total Kinetic Energy  Total Potential Energy  Total Angular Momentum\n");
 
-	int j;
+	int j, k;
 	if(stationary) j = 1;
 	else {
 		j = 0;
@@ -91,11 +91,19 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number, boo
 		fprintf(fp, "%f ", time);
 		if ( stationary ) j = 1;
 		else j = 0;
+		
 		for ( j; j < total_planets; j++ ) {
 			planet &thisplanet = all_planets[j];
 			Fx = 0; Fy = 0; Fz = 0;
-			GravitationalForce(thisplanet, sun, Fx, Fy, Fz);
-			for ( int k = 1; k < total_planets; k++ ) {
+			
+
+			if (stationary) {
+				GravitationalForce(thisplanet, sun, Fx, Fy, Fz);
+				k = 1;
+			}
+			else k = 0;
+
+			for ( k; k < total_planets; k++ ) {
 				if ( k != j ) {
 					planet other_planet = all_planets[k];
 					GravitationalForce( thisplanet, other_planet, Fx, Fy, Fz );
@@ -108,10 +116,15 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number, boo
 			for(int i = 0; i < dim; i++){
 				thisplanet.position[i] += h*thisplanet.velocity[i] + 0.5*acc[i]*h*h;
 			}
-
+			
+			if (stationary) {
+				GravitationalForce(thisplanet, sun, Fx_new, Fy_new, Fz_new);
+				k = 1;
+			}
+			else k = 0;			
+			
 			Fx_new = 0; Fy_new = 0; Fz_new = 0;
-			GravitationalForce(thisplanet, sun, Fx_new, Fy_new, Fz_new);
-			for ( int k = 1; k < total_planets; k++ ) {
+			for ( k; k < total_planets; k++ ) {
 				if ( k != j ) {
 					planet other_planet = all_planets[k];
 					GravitationalForce( thisplanet, other_planet, Fx_new, Fy_new, Fz_new );

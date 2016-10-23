@@ -15,11 +15,11 @@ int main(int argc, char * argv[])
 {
 
 	int dim = 3, N = 100000;
-	double final_time = 1.0;
+	double final_time = 20.0;
 	double b = atof(argv[1]);
 	double conv = 365.25;
 	bool energy = true;
-	bool stationary = true;
+	bool stationary = false;
 
 	planet Earth(0.000003, 1.0, 0.0, 0.0, 0.0, 2*M_PI, 0.0);
 	//planet Earth(0.000003, 0.8757, 0.4827, -0.00018, -0.00856*conv, 0.015*conv, -0.000000846*conv);

@@ -16,7 +16,7 @@ Pos = array(read_lines)
 
 plot(0, 0, "yo")
 for i in range(planets):
-	plot(Pos[:, 0 +3*i], Pos[:, 1 + 3*i], "--")
+	plot(Pos[:, 0 +3*i], Pos[:, 1 + 3*i], "-")
 	hold('on')
 xlabel("x[AU]")
 ylabel("y[AU]")

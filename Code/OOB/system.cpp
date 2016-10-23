@@ -13,14 +13,13 @@ int main(int argc, char * argv[])
 {
 
 	int dim = 3, N = 100000;
-	double final_time = 100.0;
-	double b = atof(argv[1]);
+	double final_time = 1.0;
 	double conv = 365.25;
 	bool energy = true;
 	bool stationary = true;
 	bool relativity = false;
 
-	planet Earth(0.000003, 1.0, 0.0, 0.0, 0.0, b*M_PI, 0.0);
+	planet Earth(0.000003, 1.0, 0.0, 0.0, 0.0, 2*M_PI, 0.0);
 	//planet Earth(0.000003, 0.8757, 0.4827, -0.00018, -0.00856*conv, 0.015*conv, -0.000000846*conv);
 	planet Sun(1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 	//planet Jupiter(0.001, 0.0, -5.2, 0.0, 2*0.45*M_PI, 0.0, 0.0);	

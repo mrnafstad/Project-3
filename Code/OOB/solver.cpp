@@ -74,37 +74,20 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number, boo
 
 	if(energy) printf("Time       Total Kinetic Energy  Total Potential Energy  Total Angular Momentum\n");
 
-	int j, k;
-	if(stationary) j = 1;
-	else {
-		j = 0;
-		for ( int i = 1; i < total_planets; i++ ) {
-			for (int k = 0; k < dim; k++ ) {
-				planet &thisother = all_planets[i];
-				sun.velocity[k] += thisother.velocity[k]*thisother.mass/sun.mass;
-			}
-		}
-	}
-
 	while(time < final_time){
 
 		fprintf(fp, "%f ", time);
 
-		if ( stationary ) j = 1;
+		//Variable that loops over the planets under. j = 0 is the sun.
+		int j;
+		if(stationary) j = 1;
 		else j = 0;
-		
+
 		for ( j; j < total_planets; j++ ) {
 			planet &thisplanet = all_planets[j];
 			Fx = 0; Fy = 0; Fz = 0;
-			
-
-			if (stationary) {
-				GravitationalForce(thisplanet, sun, Fx, Fy, Fz);
-				k = 1;
-			}
-			else k = 0;
-
-			for ( k; k < total_planets; k++ ) {
+			GravitationalForce(thisplanet, sun, Fx, Fy, Fz, relativity);
+			for ( int k = 1; k < total_planets; k++ ) {
 				if ( k != j ) {
 					planet other_planet = all_planets[k];
 					GravitationalForce( thisplanet, other_planet, Fx, Fy, Fz, relativity);
@@ -117,16 +100,10 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number, boo
 			for(int i = 0; i < dim; i++){
 				thisplanet.position[i] += h*thisplanet.velocity[i] + 0.5*acc[i]*h*h;
 			}
-			
-			Fx_new = 0; Fy_new = 0; Fz_new = 0;
 
-			if (stationary) {
-				GravitationalForce(thisplanet, sun, Fx_new, Fy_new, Fz_new, relativity);
-				k = 1;
-			}
-			else k = 0;			
-			
-			for ( k; k < total_planets; k++ ) {
+			Fx_new = 0; Fy_new = 0; Fz_new = 0;
+			GravitationalForce(thisplanet, sun, Fx_new, Fy_new, Fz_new, relativity);
+			for ( int k = 1; k < total_planets; k++ ) {
 				if ( k != j ) {
 					planet other_planet = all_planets[k];
 					GravitationalForce( thisplanet, other_planet, Fx_new, Fy_new, Fz_new, relativity);
@@ -162,6 +139,7 @@ void solver::velVerlet( int dim, int N, double final_time, int print_number, boo
 
 	fclose(fp);	
 }
+
 
 /*
 void solver::Gravitationalconstant()

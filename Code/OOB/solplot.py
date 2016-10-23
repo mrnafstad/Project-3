@@ -14,7 +14,7 @@ for line in f:
 
 Pos = array(read_lines)
 
-#plot(0, 0, "yo")
+plot(0, 0, "yo")
 color=iter(cm.rainbow(np.linspace(0.2, 1, planets)))
 for i in range(planets):
 	c = next(color)
@@ -22,5 +22,5 @@ for i in range(planets):
 	hold('on')
 xlabel("x[AU]")
 ylabel("y[AU]")
-legend(["Sun", "Earth", "Jupiter"])
+legend(["Sun", "Earth"])#, "Jupiter"])
 show()

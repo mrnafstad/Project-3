@@ -1,6 +1,9 @@
 from matplotlib.pylab import *
 from numpy import *
 
+rcParams['xtick.labelsize'] = 18
+rcParams['ytick.labelsize'] = 18
+
 f = open("VerletTest.txt")
 
 num =  len(f.readline().split()) # Numbers per line
@@ -14,13 +17,13 @@ for line in f:
 
 Pos = array(read_lines)
 
-plot(0, 0, "yo")
+#plot(0, 0, "yo")
 color=iter(cm.rainbow(np.linspace(0.2, 1, planets)))
 for i in range(planets):
 	c = next(color)
 	plot(Pos[:, 0 +3*i], Pos[:, 1 + 3*i], c = c)
 	hold('on')
-xlabel("x[AU]")
-ylabel("y[AU]")
-legend(["Sun", "Earth"])#, "Jupiter"])
+xlabel("x[AU]", size = 18)
+ylabel("y[AU]", size = 18)
+legend(["Sun", "Mercury", "Earth", "Jupiter"], fontsize = 24)
 show()

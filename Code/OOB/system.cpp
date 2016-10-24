@@ -14,6 +14,8 @@ int main(int argc, char * argv[])
 
 	int dim = 3, N = 1e5;
 	double final_time = 2.0;
+	//double final_time = 20.0;
+
 	double conv = 365.25;
 
 	bool energy = false;
@@ -26,7 +28,7 @@ int main(int argc, char * argv[])
 	//planet Sun(1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 	//planet Earth(0.000003, 1.0, 0.0, 0.0, 0.0, 2*M_PI, 0.0);
 	//planet Mercury(1.652*pow(10, -7), 0.3075, 0.0, 0.0, 0.0, 12.44, 0.0);
-	//planet Jupiter(0.001, 0.0, -5.2, 0.0, 2*0.45*M_PI, 0.0, 0.0);	
+	//planet Jupiter(1.0, 0.0, -5.2, 0.0, 2*5.2*M_PI/11.8, 0.0, 0.0);	
 	
 	//PLANETS WITH ACTUAL DATA FROM NASA (23. oct 2016 00:00:00)
 	//----------------------------------------------------------

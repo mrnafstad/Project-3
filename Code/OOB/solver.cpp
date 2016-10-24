@@ -274,7 +274,7 @@ void solver::PotentialEnergySystem(double epsilon)
             planet &Other = all_planets[nr2];
             Current.potential += Current.PotentialEnergy(Other,G,epsilon);
             Other.potential += Other.PotentialEnergy(Current,G,epsilon);
-            totalPotential += Current.potential;
+        	totalPotential += Current.potential;
         }
     }
 }

@@ -88,7 +88,7 @@ void solver::velVerlet( int dim, int N, double final_time, bool energy, bool sta
 		for ( int i = 1; i < total_planets; i++ ) {
 			for (int k = 0; k < dim; k++ ) {
 				planet &thisother = all_planets[i];
-				sun.velocity[k] += thisother.velocity[k]*thisother.mass/sun.mass;
+				sun.velocity[k] -= thisother.velocity[k]*thisother.mass/sun.mass;
 			}
 		}
 	}

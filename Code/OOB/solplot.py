@@ -5,6 +5,7 @@ rcParams['xtick.labelsize'] = 18
 rcParams['ytick.labelsize'] = 18
 
 f = open("VerletTest.txt")
+#f = open("EulerTest.txt")
 
 num =  len(f.readline().split()) # Numbers per line
 planets = (num -1)/3       # Three coordinates per planet
@@ -26,6 +27,7 @@ for i in range(planets):
 	hold('on')
 xlabel("x[AU]", size = 18)
 ylabel("y[AU]", size = 18)
-#legend(["Sun", "", "Earth", "", "Jupiter", ""], fontsize = 24)
-legend(["Sun", "", "Mercury", "", "Venus", "", "Earth", "", "Mars", "", "Jupiter", "", "Saturn", "", "Uranus", "", "Neptune", ""], fontsize = 24)
+#legend(["Sun", "Mercury", "Earth", "Jupiter"], fontsize = 24)
+legend(["Sun", "", "Mercury", "", "Venus", "", "Earth", "", "Mars", "", "Jupiter", "", "Saturn", "", "Uranus", "", "Neptune", ""], fontsize = 12)
+#legend(["Sun", "", "Earth", ""])
 show()

@@ -32,6 +32,7 @@ planet::planet(double M, double x, double y, double z, double vx, double vy, dou
 
 double planet::distance(planet otherPlanet)
 {
+    //Finds distance between two planets
     double x1,y1,z1,x2,y2,z2,xx,yy,zz;
 
     x1 = this->position[0];
@@ -69,10 +70,3 @@ double planet::AngularMomentum()
     return sqrt(Lx*Lx + Ly*Ly + Lz*Lz);
 
 }
-/*
-double planet::GravitationalForce(planet otherPlanet,double Gconst)
-{
-    double r = this->distance(otherPlanet);
-    if(r!=0) return Gconst*this->mass*otherPlanet.mass/(r*r);
-    else return 0;
-}*/

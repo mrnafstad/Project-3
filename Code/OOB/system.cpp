@@ -13,7 +13,7 @@ int main(int argc, char * argv[])
 {
 
 	int dim = 3, N = 1e5;
-	double final_time = 165.0;
+	double final_time = 2.0;
 	double conv = 365.25;
 
 	bool energy = false;

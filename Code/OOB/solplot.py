@@ -27,5 +27,5 @@ for i in range(planets):
 xlabel("x[AU]", size = 18)
 ylabel("y[AU]", size = 18)
 #legend(["Sun", "Mercury", "Earth", "Jupiter"], fontsize = 24)
-legend(["Sun", "", "Mercury", "", "Venus", "", "Earth", "", "Mars", "", "Jupiter", "", "Saturn", "", "Uranus", "", "Neptune", ""], fontsize = 12)
+legend(["Sun", "", "Mercury", "", "Venus", "", "Earth", "", "Mars", "", "Jupiter", "", "Saturn", "", "Uranus", "", "Neptune", ""], fontsize = 24)
 show()
